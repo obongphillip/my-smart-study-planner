@@ -227,3 +227,43 @@ def load_sessions():
     except OSError:
         print("The saved study sessions could not be opened.")
 
+def main():
+    load_sessions()
+
+    while True:
+        print("\n" + "=" * 42)
+        print("        SMART STUDY PLANNER")
+        print("=" * 42)
+        print("1. Record a new study session")
+        print("2. Display all study sessions")
+        print("3. Find sessions by subject")
+        print("4. Display study statistics")
+        print("5. Save and close the program")
+        print("=" * 42)
+
+        choice = input("Choose an option from 1 to 5: ").strip()
+
+        if choice == "1":
+            add_session()
+            save_sessions()
+
+        elif choice == "2":
+            view_sessions()
+
+        elif choice == "3":
+            subject = input("Enter the subject to search for: ").strip()
+            search_by_subject(subject)
+
+        elif choice == "4":
+            study_statistics()
+
+        elif choice == "5":
+            save_sessions()
+            print("Study Planner closed successfully.")
+            break
+
+        else:
+            print("Invalid choice. Please enter a number from 1 to 5.")
+
+if __name__ == "__main__":
+    main()
