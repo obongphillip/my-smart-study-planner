@@ -81,3 +81,38 @@ def view_sessions():
             f"{session_type:<8}"
         )
 
+def search_by_subject(subject):
+    matches = []
+
+    for record in sessions:
+        recorded_subject = record["subject"].casefold()
+        requested_subject = subject.casefold()
+
+        if recorded_subject == requested_subject:
+            matches.append(record)
+
+    print(f"\n[ SEARCH RESULTS FOR: {subject.upper()} ]")
+
+    if not matches:
+        print("No study sessions were recorded for that subject.")
+        return
+
+    total_minutes = 0
+
+    for number, record in enumerate(matches, start=1):
+        total_minutes += record["duration"]
+        session_type = classify_session(record["duration"])
+
+        print(
+            f"{number}. {record['topic']} | "
+            f"{record['date']} | "
+            f"{record['duration']:g} minutes | "
+            f"{session_type}"
+        )
+
+    total_hours = total_minutes / 60
+
+    print(f"\nMatching sessions: {len(matches)}")
+    print(f"Total subject time: {total_minutes:g} minutes")
+    print(f"Equivalent time: {total_hours:.2f} hours")
+
