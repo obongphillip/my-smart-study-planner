@@ -49,3 +49,35 @@ def add_session():
 
     print(f"Session recorded successfully as {session_type}.")
 
+def view_sessions():
+    print("\n[ ALL RECORDED STUDY SESSIONS ]")
+
+    if len(sessions) == 0:
+        print("There are currently no study sessions to display.")
+        return
+
+    line = "=" * 102
+
+    print(line)
+    print(
+        f"{'ID':<5} | "
+        f"{'SUBJECT':<28} | "
+        f"{'TOPIC':<24} | "
+        f"{'DATE/DAY':<14} | "
+        f"{'MINUTES':<8} | "
+        f"{'TYPE':<8}"
+    )
+    print(line)
+
+        for position, record in enumerate(sessions, start=1):
+        session_type = classify_session(record["duration"])
+
+        print(
+            f"{position:<5} | "
+            f"{record['subject']:<28} | "
+            f"{record['topic']:<24} | "
+            f"{record['date']:<14} | "
+            f"{record['duration']:<8g} | "
+            f"{session_type:<8}"
+        )
+
