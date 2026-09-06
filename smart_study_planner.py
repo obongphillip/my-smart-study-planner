@@ -1,5 +1,7 @@
 sessions = []
 
+FILE_NAME = "study_log.txt"
+
 SHORT_LIMIT = 30
 MEDIUM_LIMIT = 90
 
@@ -69,7 +71,7 @@ def view_sessions():
     )
     print(line)
 
-        for position, record in enumerate(sessions, start=1):
+    for position, record in enumerate(sessions, start=1):
         session_type = classify_session(record["duration"])
 
         print(
@@ -169,3 +171,59 @@ def study_statistics():
         f"{longest_session['topic']} "
         f"({longest_session['duration']:g} minutes)"
     )
+def save_sessions():
+    try:
+        with open(FILE_NAME, "w", encoding="utf-8") as file:
+            for record in sessions:
+                file.write(
+                    f"{record['subject']}|"
+                    f"{record['topic']}|"
+                    f"{record['date']}|"
+                    f"{record['duration']}\n"
+                )
+
+        print(f"{len(sessions)} session(s) saved successfully.")
+
+    except OSError:
+        print("The study sessions could not be saved.")
+
+def load_sessions():
+    sessions.clear()
+
+    try:
+        with open(FILE_NAME, "r", encoding="utf-8") as file:
+            for line in file:
+                line = line.strip()
+
+                if not line:
+                    continue
+
+                parts = line.split("|")
+
+                if len(parts) != 4:
+                    continue
+
+                subject_name = parts[0]
+                topic_name = parts[1]
+                study_day = parts[2]
+
+                try:
+                    minutes = float(parts[3])
+                except ValueError:
+                    continue
+
+                sessions.append({
+                    "subject": subject_name,
+                    "topic": topic_name,
+                    "date": study_day,
+                    "duration": minutes
+                })
+
+        print(f"{len(sessions)} saved session(s) loaded.")
+
+    except FileNotFoundError:
+        print("No saved study sessions were found.")
+
+    except OSError:
+        print("The saved study sessions could not be opened.")
+

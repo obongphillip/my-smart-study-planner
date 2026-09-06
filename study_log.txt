@@ -1,0 +1,2 @@
+Programming fundamentals|Data structures|Monday|40.0
+Database system|Table design|Wednesday|60.0
